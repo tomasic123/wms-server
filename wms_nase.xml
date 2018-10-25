@@ -76,8 +76,8 @@
 	  <BoundingBox CRS="EPSG:5514" minx="-507668.121" miny="-1218115.828" maxx="-511572.982" maxy="1222268.772"/>
     </Layer>
 	<Layer queryable="0">
-      <Title><![CDATA[Cesty]]></Title>
-            <Name>Budovy</Name>
+      <Title>Cesty></Title>
+      <Name>Cesty</Name>
       <Abstract><![CDATA[]]></Abstract>
 	  <CRS>EPSG:5514</CRS>
 	  <!-- alias 5514 -->
