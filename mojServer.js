@@ -2,6 +2,9 @@ var express = require("express");
 var path= require('path')
 var server = express();
 var PORT = 3000;
+var ImageCreator = require('./Image_Creator.js');
+
+console.log(ImageCreator);
 
 server.get('/wms', function (request, response) {
     var params = request.query;
@@ -9,7 +12,7 @@ server.get('/wms', function (request, response) {
     if(params.SERVICE === 'WMS' && params.REQUEST === 'GetCapabilities'){
         response.sendFile(path.join(__dirname, 'wms_nase.xml'))
     }else if (params.SERVICE === 'WMS' && params.REQUEST === 'GetMap'){
-        console.log('nejdeme robit get capa')
+        ImageCreator(params, response.sendFile.bind(response))
     }else {
         response.send('nepodporovana metoda')
     }
