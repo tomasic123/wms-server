@@ -33,7 +33,7 @@ function ImageCreator(arg, sendFile){
         '</Rule>' +
     '</Style>' 
 
-    var schema = '<Map background-color="transparent" srs="'+proj+'">' + // we define background color of the map and its spatial reference system with epsg code of data used
+    var schema = '<Map background-color="#bbf9e4" srs="'+proj+'">' + // we define background color of the map and its spatial reference system with epsg code of data used
                 (addBudovy ? style_budovy : '') +
                 (addCesty ? style_cesty : '') +
 
@@ -46,7 +46,7 @@ function ImageCreator(arg, sendFile){
                     '</Layer>' +
                     
                     '<Layer name="budovy" srs="'+proj+'">' + // same as above
-                        '<StyleName>style_cesty</StyleName>' +
+                        '<StyleName>style_budovy</StyleName>' +
                             '<Datasource>' +
                                 '<Parameter name="file">' + path.join( __dirname, 'vrstvy/budovy.shp' ) +'</Parameter>' +
                                 '<Parameter name="type">shape</Parameter>' +
@@ -55,7 +55,7 @@ function ImageCreator(arg, sendFile){
                 '</Map>';
 // now we have a mapnik xml in variable schema that defines layers, data sources and styles of the layers
 
-map.fromString(schema, function(err, map) { // we use method "fromString" => we need to use the xml schema inside variable schema
+  map.fromString(schema, function(err, map) { // we use method "fromString" => we need to use the xml schema inside variable schema
   if (err) {
       console.log('Map Schema Error: ' + err.message) // if there is an error in schema processing we print it out
   }
