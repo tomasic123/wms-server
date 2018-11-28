@@ -2,10 +2,14 @@ var express = require("express");
 var path= require('path')
 var server = express();
 var PORT = 3000;
+var fs = require("fs");
+var mapnik = require("mapnik");
 var ImageCreator = require('./Image_Creator.js');
 
 console.log(ImageCreator);
-
+//
+server.use(express.static('znacky'));
+//
 server.get('/wms', function (request, response) {
     var params = request.query;
     console.log(params);

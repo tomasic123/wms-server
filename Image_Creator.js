@@ -17,25 +17,169 @@ function ImageCreator(arg, sendFile){
 
     var addBudovy=arg.LAYERS.includes('budovy');
     var addCesty=arg.LAYERS.includes('cesty');
+    var addCintorin=arg.LAYERS.includes('cintorin');
+    var addLavicky=arg.LAYERS.includes('lavicky');
+    var addOdpad=arg.LAYERS.includes('odpad');
+    var addParkovisko=arg.LAYERS.includes('parkovisko');
 
     var proj = "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +towgs84=589,76,480,0,0,0,0 +units=m +no_defs";
 
     var style_budovy='<Style name="style_budovy">' + // style for layer "style_budovy"
         '<Rule>' +
+            '<PolygonSymbolizer fill="#ff6d6d"  />' + // style for polygons
             '<LineSymbolizer stroke="black" stroke-width="0.1" />' + // style for lines
-            '<PolygonSymbolizer fill="#F9530B"  />' + // style for polygons
         '</Rule>' +
     '</Style>' 
 
     var style_cesty='<Style name="style_cesty">' + // style for layer "style_cesty"
         '<Rule>' +
-            '<LineSymbolizer stroke="#065535" stroke-width="0.8" />' + // style for lines
+            '<MinScaleDenominator>8001</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="1"/>' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>8000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>3001</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="#ff6b0f" stroke-width="5" stroke-linecap="round" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>8000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>3001</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="1" stroke-dasharray="4 2" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>8000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>3001</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="1" offset="3" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>8000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>3001</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="1" offset="-3" />' + // style for lines
+        '</Rule>' +
+
+        '<Rule>' +
+            '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="#ff6b0f" stroke-width="8" stroke-linecap="round"/>' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="2" stroke-dasharray="4 2" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="1" offset="4" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="1" offset="-4" />' + // style for lines
+        '</Rule>' +
+        
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>'+
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="#ff6b0f" stroke-width="80" stroke-linecap="round"/>' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>'+
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="5" stroke-dasharray="20 5" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>'+
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="3" offset="40" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>'+
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="3" offset="-40" />' + // style for lines
+        '</Rule>' +           
+    '</Style>'
+    
+    var style_cintorin='<Style name="style_cintorin">' + // style for layer "style_budovy"
+        '<Rule>' +
+            '<LineSymbolizer stroke="black" stroke-width="0.1" />' + // style for lines
+            '<PolygonSymbolizer fill="#633977"  />' + // style for polygons
+        '</Rule>' +
+        '<Rule>'+
+            '<MaxScaleDenominator>8000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>3001</MinScaleDenominator>'+
+            '<PolygonPatternSymbolizer file="./znacky/cross1.png"/>'+
+        '</Rule>'+
+        '<Rule>'+
+            '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>301</MinScaleDenominator>'+
+            '<PolygonPatternSymbolizer file="./znacky/cross2.png"/>'+
+        '</Rule>'+
+        '<Rule>'+
+            '<MaxScaleDenominator>300</MaxScaleDenominator>'+
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<PolygonPatternSymbolizer file="./znacky/cross.png"/>'+
+        '</Rule>'+
+    '</Style>' 
+
+    var style_lavicky='<Style name="style_lavicky">' + // style for layer "style_lavicky"
+        '<Rule>' +
+            '<MaxScaleDenominator>2000</MaxScaleDenominator>' +
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<PointSymbolizer file= "./znacky/bench.png" transform="scale(0.05,0.05)" />'+
+            '</Rule>' +
+            '<Rule>' +
+                '<MaxScaleDenominator>199</MaxScaleDenominator>' +
+                '<MinScaleDenominator>1</MinScaleDenominator>'+
+                '<PointSymbolizer file= "./znacky/bench.png" transform="scale(0.1,0.1)" />'+
+            '</Rule>' +
+    '</Style>'
+
+    var style_odpad='<Style name="style_odpad">' + // style for layer "style_odpad"
+        '<Rule>' +
+            '<MaxScaleDenominator>2000</MaxScaleDenominator>' +
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<PointSymbolizer file= "./znacky/trash2.png" transform="scale(0.03,0.03)"  />'+
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>' +
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<PointSymbolizer file= "./znacky/trash2.png" transform="scale(0.2,0.2)" />'+
+        '</Rule>' +
+    '</Style>' 
+    
+    var style_parkovisko='<Style name="style_parkovisko">' + // style for layer "style_odpad"
+        '<Rule>' +
+            '<PolygonSymbolizer fill="blue"  stroke-opacity="0.1" />' + // style for polygons
+            '<LineSymbolizer stroke="black" stroke-width="0.5" />' + // style for lines
+        '</Rule>' +  
+        '<Rule>' +
+            '<MaxScaleDenominator>2000</MaxScaleDenominator>' +
+            '<MinScaleDenominator>500</MinScaleDenominator>'+
+            '<PointSymbolizer file= "./znacky/parking.png" transform="scale(0.05,0.05)" />'+
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>499</MaxScaleDenominator>' +
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<PointSymbolizer file= "./znacky/parking.png" transform="scale(0.08,0.08)" />'+
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>' +
+            '<MinScaleDenominator>0.1</MinScaleDenominator>'+
+            '<PointSymbolizer file= "./znacky/parking.png" transform="scale(0.2,0.2)" />'+
         '</Rule>' +
     '</Style>' 
 
-    var schema = '<Map background-color="#bbf9e4" srs="'+proj+'">' + // we define background color of the map and its spatial reference system with epsg code of data used
+
+
+
+    var schema = '<Map background-color="transparent" srs="'+proj+'">' + // we define background color of the map and its spatial reference system with epsg code of data used
                 (addBudovy ? style_budovy : '') +
                 (addCesty ? style_cesty : '') +
+                (addCintorin ? style_cintorin : '') +
+                (addLavicky ? style_lavicky : '') +
+                (addOdpad ? style_odpad : '') +
+                (addParkovisko ? style_parkovisko : '') +
 
                     '<Layer name="cesty" srs="'+proj+'">' + // layer "cesty" with spatial reference system
                         '<StyleName>style_cesty</StyleName>' + // binding of a style used for this layer => "style_cesty"
@@ -52,6 +196,39 @@ function ImageCreator(arg, sendFile){
                                 '<Parameter name="type">shape</Parameter>' +
                             '</Datasource>' +
                     '</Layer>' +
+
+                    '<Layer name="cintorin" srs="'+proj+'">' + // layer "cesty" with spatial reference system
+                        '<StyleName>style_cintorin</StyleName>' + // binding of a style used for this layer => "style_cesty"
+                        '<Datasource>' + // definition of a data source
+                            '<Parameter name="file">' + path.join( __dirname, 'vrstvy/cintorin.shp' ) +'</Parameter>' + // path to the data file
+                            '<Parameter name="type">shape</Parameter>' + // file type
+                        '</Datasource>' +
+                    '</Layer>' +
+
+                    '<Layer name="lavicky" srs="'+proj+'">' + // same as above
+                        '<StyleName>style_lavicky</StyleName>' +
+                        '<Datasource>' +
+                            '<Parameter name="file">' + path.join( __dirname, 'vrstvy/lavicky.shp' ) +'</Parameter>' +
+                            '<Parameter name="type">shape</Parameter>' +
+                        '</Datasource>' +
+                    '</Layer>' + 
+
+                    '<Layer name="odpad" srs="'+proj+'">' + // same as above
+                        '<StyleName>style_odpad</StyleName>' +
+                        '<Datasource>' +
+                            '<Parameter name="file">' + path.join( __dirname, 'vrstvy/odpad.shp' ) +'</Parameter>' +
+                            '<Parameter name="type">shape</Parameter>' +
+                        '</Datasource>' +
+                    '</Layer>' + 
+
+                    '<Layer name="parkovisko" srs="'+proj+'">' + // same as above
+                        '<StyleName>style_parkovisko</StyleName>' +
+                        '<Datasource>' +
+                            '<Parameter name="file">' + path.join( __dirname, 'vrstvy/parkovisko.shp' ) +'</Parameter>' +
+                            '<Parameter name="type">shape</Parameter>' +
+                        '</Datasource>' +
+                    '</Layer>' + 
+
                 '</Map>';
 // now we have a mapnik xml in variable schema that defines layers, data sources and styles of the layers
 
