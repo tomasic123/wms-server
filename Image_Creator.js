@@ -15,12 +15,16 @@ function ImageCreator(arg, sendFile){
     var map = new mapnik.Map(width, height);
 // create new map object with defined width and height
 
-    var addBudovy=arg.LAYERS.includes('budovy');
+    var addBudovy=arg.LAYERS.includes('budovy'); // či obsahuje
     var addCesty=arg.LAYERS.includes('cesty');
+    var addChodniky=arg.LAYERS.includes('chodniky');
     var addCintorin=arg.LAYERS.includes('cintorin');
     var addLavicky=arg.LAYERS.includes('lavicky');
     var addOdpad=arg.LAYERS.includes('odpad');
     var addParkovisko=arg.LAYERS.includes('parkovisko');
+    var addSluzby=arg.LAYERS.includes('sluzby');
+    var addIne=arg.LAYERS.includes('ine');
+
 
     var proj = "+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0 +ellps=bessel +towgs84=589,76,480,0,0,0,0 +units=m +no_defs";
 
@@ -39,7 +43,7 @@ function ImageCreator(arg, sendFile){
         '<Rule>' +
             '<MaxScaleDenominator>8000</MaxScaleDenominator>'+
             '<MinScaleDenominator>3001</MinScaleDenominator>'+
-            '<LineSymbolizer stroke="#ff6b0f" stroke-width="5" stroke-linecap="round" />' + // style for lines
+            '<LineSymbolizer stroke="#99897e" stroke-width="5" stroke-linecap="round" />' + // style for lines
         '</Rule>' +
         '<Rule>' +
             '<MaxScaleDenominator>8000</MaxScaleDenominator>'+
@@ -60,7 +64,7 @@ function ImageCreator(arg, sendFile){
         '<Rule>' +
             '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
             '<MinScaleDenominator>200</MinScaleDenominator>'+
-            '<LineSymbolizer stroke="#ff6b0f" stroke-width="8" stroke-linecap="round"/>' + // style for lines
+            '<LineSymbolizer stroke="#99897e" stroke-width="8" stroke-linecap="round"/>' + // style for lines
         '</Rule>' +
         '<Rule>' +
             '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
@@ -81,7 +85,7 @@ function ImageCreator(arg, sendFile){
         '<Rule>' +
             '<MaxScaleDenominator>199</MaxScaleDenominator>'+
             '<MinScaleDenominator>1</MinScaleDenominator>'+
-            '<LineSymbolizer stroke="#ff6b0f" stroke-width="80" stroke-linecap="round"/>' + // style for lines
+            '<LineSymbolizer stroke="#99897e" stroke-width="80" stroke-linecap="round"/>' + // style for lines
         '</Rule>' +
         '<Rule>' +
             '<MaxScaleDenominator>199</MaxScaleDenominator>'+
@@ -98,6 +102,50 @@ function ImageCreator(arg, sendFile){
             '<MinScaleDenominator>1</MinScaleDenominator>'+
             '<LineSymbolizer stroke="black" stroke-width="3" offset="-40" />' + // style for lines
         '</Rule>' +           
+    '</Style>'
+
+    var style_chodniky='<Style name="style_chodniky">' + // style for layer "style_cesty"       
+        '<Rule>' +
+            '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="#8c400b" stroke-width="3" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="#61ff23" stroke-width="3"  stroke-dasharray="4, 2"/>' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="0.5" offset="1.5" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>3000</MaxScaleDenominator>'+
+            '<MinScaleDenominator>200</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="0.5" offset="-1.5" />' + // style for lines
+        '</Rule>' +
+        
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>'+
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="#8c400b" stroke-width="5" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>'+
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="#61ff23" stroke-width="5"  stroke-dasharray="4, 2"/>' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>'+
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="1" offset="2.5" />' + // style for lines
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>199</MaxScaleDenominator>'+
+            '<MinScaleDenominator>1</MinScaleDenominator>'+
+            '<LineSymbolizer stroke="black" stroke-width="1" offset="-2.5" />' + // style for lines
+        '</Rule>' + 
     '</Style>'
     
     var style_cintorin='<Style name="style_cintorin">' + // style for layer "style_budovy"
@@ -150,7 +198,7 @@ function ImageCreator(arg, sendFile){
     
     var style_parkovisko='<Style name="style_parkovisko">' + // style for layer "style_odpad"
         '<Rule>' +
-            '<PolygonSymbolizer fill="blue"  stroke-opacity="0.1" />' + // style for polygons
+            '<PolygonSymbolizer fill="#00fffa"  stroke-opacity="0.1" />' + // style for polygons
             '<LineSymbolizer stroke="black" stroke-width="0.5" />' + // style for lines
         '</Rule>' +  
         '<Rule>' +
@@ -170,21 +218,128 @@ function ImageCreator(arg, sendFile){
         '</Rule>' +
     '</Style>' 
 
+    var style_sluzby='<Style name="style_sluzby">' + // style for layer "style_odpad"
+        '<Rule>' +
+            '<MaxScaleDenominator>8000</MaxScaleDenominator>' +
+            '<MinScaleDenominator>4001</MinScaleDenominator>'+
+            "<Filter>[TYP] = 'posta'</Filter>" +
+            '<MarkersSymbolizer file= "./znacky/post.png" width="15" height="15"  />'+
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>4000</MaxScaleDenominator>' +
+            '<MinScaleDenominator>201</MinScaleDenominator>'+
+            "<Filter>[TYP] = 'posta'</Filter>" +
+            '<MarkersSymbolizer file= "./znacky/post.png" width="25" height="25"  />'+
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>200</MaxScaleDenominator>' +
+            '<MinScaleDenominator>0.1</MinScaleDenominator>'+
+            "<Filter>[TYP] = 'posta'</Filter>" +
+            '<MarkersSymbolizer file= "./znacky/post.png" width="50" height="50"  />'+
+        '</Rule>' +
 
+        '<Rule>' +
+            '<MaxScaleDenominator>8000</MaxScaleDenominator>' +
+            '<MinScaleDenominator>4001</MinScaleDenominator>'+
+            "<Filter>[TYP] = 'hasicska_stanica'</Filter>" +
+            '<MarkersSymbolizer file= "./znacky/hasici3.png" width="20" height="20"  />'+
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>4000</MaxScaleDenominator>' +
+            '<MinScaleDenominator>201</MinScaleDenominator>'+
+            "<Filter>[TYP] = 'hasicska_stanica'</Filter>" +
+            '<MarkersSymbolizer file= "./znacky/hasici3.png" width="30" height="30"  />'+
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>200</MaxScaleDenominator>' +
+            '<MinScaleDenominator>0.1</MinScaleDenominator>'+
+            "<Filter>[TYP] = 'hasicska_stanica'</Filter>" +
+            '<MarkersSymbolizer file= "./znacky/hasici3.png" width="70" height="70"  />'+
+        '</Rule>' +  
 
+    '<Rule>' +
+        '<MaxScaleDenominator>8000</MaxScaleDenominator>' +
+        '<MinScaleDenominator>4001</MinScaleDenominator>'+
+        "<Filter>[TYP] = 'kniznica'</Filter>" +
+        '<MarkersSymbolizer file= "./znacky/lib.png" width="20" height="20"  />'+
+    '</Rule>' +
+    '<Rule>' +
+        '<MaxScaleDenominator>4000</MaxScaleDenominator>' +
+        '<MinScaleDenominator>201</MinScaleDenominator>'+
+        "<Filter>[TYP] = 'kniznica'</Filter>" +
+        '<MarkersSymbolizer file= "./znacky/lib.png" width="30" height="30"  />'+
+    '</Rule>' +
+    '<Rule>' +
+        '<MaxScaleDenominator>200</MaxScaleDenominator>' +
+        '<MinScaleDenominator>0.1</MinScaleDenominator>'+
+        "<Filter>[TYP] = 'kniznica'</Filter>" +
+        '<MarkersSymbolizer file= "./znacky/lib.png" width="70" height="70"  />'+
+    '</Rule>' +          
+    
+    '<Rule>' +
+        '<MaxScaleDenominator>8000</MaxScaleDenominator>' +
+        '<MinScaleDenominator>4001</MinScaleDenominator>'+
+        "<Filter>[TYP] = 'obecny_urad'</Filter>" +
+        '<MarkersSymbolizer file= "./znacky/urad.png" width="20" height="20"  />'+
+    '</Rule>' +
+    '<Rule>' +
+        '<MaxScaleDenominator>4000</MaxScaleDenominator>' +
+        '<MinScaleDenominator>201</MinScaleDenominator>'+
+        "<Filter>[TYP] = 'obecny_urad'</Filter>" +
+        '<MarkersSymbolizer file= "./znacky/urad.png" width="30" height="30"  />'+
+    '</Rule>' +
+    '<Rule>' +
+        '<MaxScaleDenominator>200</MaxScaleDenominator>' +
+        '<MinScaleDenominator>0.1</MinScaleDenominator>'+
+        "<Filter>[TYP] = 'obecny_urad'</Filter>" +
+        '<MarkersSymbolizer file= "./znacky/urad.png" width="70" height="70"  />'+
+    '</Rule>' +       
+    '</Style>' 
+
+    var style_ine='<Style name="style_ine">' + // style for layer "style_odpad"
+        '<Rule>' +
+            '<MaxScaleDenominator>8000</MaxScaleDenominator>' +
+            '<MinScaleDenominator>4001</MinScaleDenominator>'+
+            "<Filter>[OBJEKT] = 'fontana'</Filter>" +
+            '<MarkersSymbolizer file= "./znacky/fountain.png" width="15" height="15"  />'+
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>4000</MaxScaleDenominator>' +
+            '<MinScaleDenominator>201</MinScaleDenominator>'+
+            "<Filter>[OBJEKT] = 'fontana'</Filter>" +
+            '<MarkersSymbolizer file= "./znacky/fountain.png" width="25" height="25"  />'+
+        '</Rule>' +
+        '<Rule>' +
+            '<MaxScaleDenominator>200</MaxScaleDenominator>' +
+            '<MinScaleDenominator>0.1</MinScaleDenominator>'+
+            "<Filter>[OBJEKT] = 'fontana'</Filter>" +
+            '<MarkersSymbolizer file= "./znacky/fountain.png" width="50" height="50"  />'+
+        '</Rule>' +
+    '</Style>' 
 
     var schema = '<Map background-color="transparent" srs="'+proj+'">' + // we define background color of the map and its spatial reference system with epsg code of data used
                 (addBudovy ? style_budovy : '') +
                 (addCesty ? style_cesty : '') +
+                (addChodniky ? style_chodniky : '') +
                 (addCintorin ? style_cintorin : '') +
                 (addLavicky ? style_lavicky : '') +
                 (addOdpad ? style_odpad : '') +
                 (addParkovisko ? style_parkovisko : '') +
+                (addSluzby ? style_sluzby : '') +
+                (addIne ? style_ine : '') +
 
                     '<Layer name="cesty" srs="'+proj+'">' + // layer "cesty" with spatial reference system
                         '<StyleName>style_cesty</StyleName>' + // binding of a style used for this layer => "style_cesty"
                         '<Datasource>' + // definition of a data source
                             '<Parameter name="file">' + path.join( __dirname, 'vrstvy/cesty.shp' ) +'</Parameter>' + // path to the data file
+                            '<Parameter name="type">shape</Parameter>' + // file type
+                        '</Datasource>' +
+                    '</Layer>' +
+
+                    '<Layer name="chodniky" srs="'+proj+'">' + // layer "cesty" with spatial reference system
+                        '<StyleName>style_chodniky</StyleName>' + // binding of a style used for this layer => "style_cesty"
+                        '<Datasource>' + // definition of a data source
+                            '<Parameter name="file">' + path.join( __dirname, 'vrstvy/chodniky.shp' ) +'</Parameter>' + // path to the data file
                             '<Parameter name="type">shape</Parameter>' + // file type
                         '</Datasource>' +
                     '</Layer>' +
@@ -205,6 +360,14 @@ function ImageCreator(arg, sendFile){
                         '</Datasource>' +
                     '</Layer>' +
 
+                    '<Layer name="parkovisko" srs="'+proj+'">' + // same as above
+                        '<StyleName>style_parkovisko</StyleName>' +
+                        '<Datasource>' +
+                            '<Parameter name="file">' + path.join( __dirname, 'vrstvy/parkovisko.shp' ) +'</Parameter>' +
+                            '<Parameter name="type">shape</Parameter>' +
+                        '</Datasource>' +
+                    '</Layer>' + 
+
                     '<Layer name="lavicky" srs="'+proj+'">' + // same as above
                         '<StyleName>style_lavicky</StyleName>' +
                         '<Datasource>' +
@@ -221,10 +384,19 @@ function ImageCreator(arg, sendFile){
                         '</Datasource>' +
                     '</Layer>' + 
 
-                    '<Layer name="parkovisko" srs="'+proj+'">' + // same as above
-                        '<StyleName>style_parkovisko</StyleName>' +
+                    '<Layer name="sluzby" srs="'+proj+'">' + // same as above
+                        '<StyleName>style_sluzby</StyleName>' +
                         '<Datasource>' +
-                            '<Parameter name="file">' + path.join( __dirname, 'vrstvy/parkovisko.shp' ) +'</Parameter>' +
+                            '<Parameter name="file">' + path.join( __dirname, 'vrstvy/sluzby.shp' ) +'</Parameter>' +
+                            '<Parameter name="type">shape</Parameter>' +
+                        '</Datasource>' +
+                    '</Layer>' + 
+
+
+                    '<Layer name="ine" srs="'+proj+'">' + // same as above
+                        '<StyleName>style_ine</StyleName>' +
+                        '<Datasource>' +
+                            '<Parameter name="file">' + path.join( __dirname, 'vrstvy/Ine.shp' ) +'</Parameter>' +
                             '<Parameter name="type">shape</Parameter>' +
                         '</Datasource>' +
                     '</Layer>' + 
