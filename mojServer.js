@@ -4,9 +4,9 @@ var path= require('path') // import balíka pre prácu s cestami
 
 var server = express(); // vytvorí sa nová inštancia expresu v premennej
 var PORT = 3000; // definovanie hodnoty pre premennú "port"
-var fs = require("fs"); // definovanie File System do premennej "fs"
+var fs = require("fs"); // nacitanie node File System do premennej "fs"
 var mapnik = require("mapnik"); // definovanie knižnice na nykreslovanie mapy
-var ImageCreator = require('./Image_Creator.js'); // privolanie a uloženie skriptu "Image_Creator" do premennej "Image_Creator"
+var ImageCreator = require('./Image_Creator.js'); // privolanie a uloženie jskriptu "Image_Creator" do premennej "Image_Creator"
 
 console.log(ImageCreator); // vygenerovanie výstupu "Image_Creator" do webovej konzoly
 //
